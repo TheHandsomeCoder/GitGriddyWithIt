@@ -10,12 +10,14 @@ public class Grid
     private float cellSize;
     private int[,] gridArray;
     private TextMesh[,] debugTextArray;
+    private Vector3 origin;
 
-    public Grid(int width, int height, float cellSize)
+    public Grid(int width, int height, float cellSize, Vector3 origin)
     {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
+        this.origin = origin;
 
         gridArray = new int[width, height];
         debugTextArray = new TextMesh[width, height];
@@ -38,12 +40,12 @@ public class Grid
 
     private Vector3 GetWorldPosition(int x, int y)
     {
-        return new Vector3(x, y) * cellSize;
+        return new Vector3(x, y) * cellSize + origin;
     }
 
     private (int, int) GetXY(Vector3 input) {
-        int x = Mathf.FloorToInt(input.x / cellSize);
-        int y = Mathf.FloorToInt(input.y / cellSize);
+        int x = Mathf.FloorToInt((input - origin).x / cellSize);
+        int y = Mathf.FloorToInt((input - origin).y / cellSize);
         return (x,y);
     }
 
